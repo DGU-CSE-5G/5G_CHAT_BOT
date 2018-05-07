@@ -148,7 +148,7 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_chat);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},1);
 
@@ -167,7 +167,7 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
 
         final ai.api.android.AIConfiguration config = new ai.api.android.AIConfiguration(ACCESS_TOKEN
                 ,
-                ai.api.android.AIConfiguration.SupportedLanguages.English,
+                AIConfiguration.SupportedLanguages.Korean,
                 ai.api.android.AIConfiguration.RecognitionEngine.System);
 
         aiService = AIService.getService(this, config);
@@ -325,8 +325,6 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
 
     @Override
     public void onResult(ai.api.model.AIResponse response) {
-
-
         Result result = response.getResult();
 
         String message = result.getResolvedQuery();
@@ -337,8 +335,6 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
         String reply = result.getFulfillment().getSpeech();
         ChatMessage chatMessage = new ChatMessage(reply, "bot");
         ref.child("chat").push().setValue(chatMessage);
-
-
     }
 
     @Override

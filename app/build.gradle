@@ -34,10 +34,13 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:support-vector-drawable:26.1.0'
     implementation 'com.android.support:support-v4:26.0.0-beta1'
+
     testImplementation 'junit:junit:4.12'
     compile 'com.sendbird.sdk:sendbird-android-sdk:3.0.55'
     compile 'org.jsoup:jsoup:1.11.2'
     compile 'com.fasterxml.jackson.core:jackson-core:2.6.3'
+    compile 'com.android.support:recyclerview-v7:26.+'
+
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'junit:junit:4.12'
@@ -46,6 +49,8 @@ dependencies {
     compile 'me.relex:circleindicator:1.2.2@aar'
     compile 'ai.api:sdk:2.0.7@aar'
     compile 'ai.api:libai:1.6.12'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'commons-io:commons-io:2.4'
 
     //firebase
     compile 'com.google.firebase:firebase-auth:11.8.0'
@@ -56,3 +61,5 @@ dependencies {
 
     implementation files('/Users/alex/Downloads/jackson-databind-2.9.0.jar')
 }
+
+apply plugin: 'com.google.gms.google-services'

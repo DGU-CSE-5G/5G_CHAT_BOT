@@ -5,8 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.alex.dg_chatbot.R;
+
 /**
- * Created by beast on 14/4/17.
+ *
  */
 
 public class chat_rec extends RecyclerView.ViewHolder  {
