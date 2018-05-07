@@ -1,55 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="100"
     tools:context="com.example.alex.dg_chatbot.UI.Main.chat.ChatActivity">
 
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1">-->
-
-    <!--</android.support.v7.widget.RecyclerView>-->
-
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="90">
+        android:layout_height="match_parent"
+        android:paddingTop="10dp"
+        android:paddingBottom="50dp"
+        android:clipToPadding="false"
+        android:background="#f4f6f7"/>
 
-        <TextView
-            android:id="@+id/tvResult"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="10dp"
+            android:elevation="2dp"
+            android:background="@drawable/back_addtask"
+            android:layout_toStartOf="@+id/addBtn"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/addBtn">
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="#fff"
+                android:hint="Type a Message"
+                android:textSize="18sp"/>
 
-    </LinearLayout>
 
-    <LinearLayout
+        </RelativeLayout>
 
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        android:orientation="horizontal">
-        <EditText
-            android:id="@+id/etSendMsg"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:hint="채팅 메시지 입력"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
+        <RelativeLayout
+            android:id="@+id/addBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/back_fab"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="5dp"
+            android:elevation="4dp"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true">
+            <ImageView
+                android:id="@+id/fab_img"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerInParent="true"
+                android:tint="#fff"
+                android:src="@drawable/ic_mic_white_24dp"/>
 
-        <Button
-            android:id="@+id/btSend"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:text="SEND"
-            android:background="#dadada"/>
+        </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
