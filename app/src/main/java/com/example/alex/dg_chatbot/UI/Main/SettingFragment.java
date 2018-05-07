@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.alex.dg_chatbot.R;
 
@@ -14,6 +15,7 @@ import com.example.alex.dg_chatbot.R;
  */
 public class SettingFragment extends Fragment {
 
+    private Button btLogout;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -25,6 +27,14 @@ public class SettingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = (View) inflater.inflate(R.layout.fragment_setting, container, false);
+        btLogout = view.findViewById(R.id.btLogout);
+
+        btLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         return view;
     }
