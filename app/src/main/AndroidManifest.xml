@@ -19,22 +19,20 @@
         tools:replace="android:icon">
         <activity
             android:name=".UI.Main.MainActivity"
-            android:label="@string/app_name">
-
-
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity android:name=".EclassCrawl.JsoupTestActivity" />
         <activity android:name=".UI.Login.SplashActivity" />
-        <activity android:name=".UI.Tutorial.TutorialActivity"></activity>
-        <activity android:name=".UI.Login.LoginActivity" />
-        <activity android:name=".UI.Login.SelectFavoriteActivity" />
-        <activity android:name=".UI.Main.chat.ChatActivity">
+        <activity android:name=".UI.Tutorial.TutorialActivity" />
+        <activity android:name=".UI.Login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".UI.Login.SelectFavoriteActivity" />
+        <activity android:name=".UI.Main.chat.ChatActivity" />
+        <activity android:name=".UI.Login.SignUpActivity"></activity>
     </application>
 
 </manifest>

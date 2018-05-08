@@ -81,7 +81,8 @@ public class LoginActivity extends RootLogin {
         btSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                emailSignUp();
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -101,7 +102,7 @@ public class LoginActivity extends RootLogin {
                     FirebaseUser user = getUser();
                     if(user != null){
                         Log.i("Login", user.getUid());
-                        Log.i("Login", user.getEmail());
+//                        Log.i("Login", user.getEmail());
                     }
 
                     Toast.makeText(LoginActivity.this, "익명 계정 생성 성공", Toast.LENGTH_LONG).show();
@@ -137,7 +138,9 @@ public class LoginActivity extends RootLogin {
 
 
     }
-    public boolean isVaild() {
+
+    //유효성 검사
+   public boolean isVaild() {
         String email = this.etUserId.getText().toString();
         String pwd = this.etUserPwd.getText().toString();
         if(TextUtils.isEmpty(email)) {

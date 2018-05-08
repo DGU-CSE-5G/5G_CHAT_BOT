@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="99"
+        android:layout_weight="30"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
@@ -21,37 +21,22 @@
             android:text="Welcome! This is chat fragment"
             android:textSize="40dp" />
 
-        <Button
-            android:id="@+id/btAudioTest"
-            android:text="listen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tvResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:weightSum="100">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="This is space for select my favorite\n
+            If you complete selection, please click button below"/>
+
+    <Button
+        android:id="@+id/btGoChat"
+        android:text="gochat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
-        <EditText
-            android:id="@+id/etSendMsg"
-            android:layout_weight="82"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
-
-        <Button
-            android:id="@+id/btSend"
-            android:layout_weight="18"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="send" />
-    </LinearLayout>
 
 
 </LinearLayout>

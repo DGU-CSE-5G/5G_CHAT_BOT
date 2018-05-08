@@ -2,7 +2,7 @@ package com.example.alex.dg_chatbot.UI.Main.chat;
 
 
 /**
- * Created by beast on 14/4/17.
+ *
  */
 
 public class ChatMessage {
@@ -10,14 +10,11 @@ public class ChatMessage {
     private String msgText;
     private String msgUser;
 
-
-
     public ChatMessage(String msgText, String msgUser){
         this.msgText = msgText;
         this.msgUser = msgUser;
 
     }
-
 
     public ChatMessage(){
 

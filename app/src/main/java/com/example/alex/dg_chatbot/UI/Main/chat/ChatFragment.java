@@ -2,6 +2,7 @@ package com.example.alex.dg_chatbot.UI.Main.chat;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,17 +32,8 @@ import ai.api.model.Result;
  * A simple {@link Fragment} subclass.
  */
 public class ChatFragment extends Fragment{
-    private TextView tvResult;
-    private EditText etSendMsg;
-    private AIService aiService;
-    private Button btSend;
-    final AIRequest aiRequest = new AIRequest();
 
-    final AIConfiguration config = new AIConfiguration("2aa32e7cdfb44da8b90ad5ca56141b01",
-            AIConfiguration.SupportedLanguages.English,
-            AIConfiguration.RecognitionEngine.System);
-
-    final AIDataService aiDataService = new AIDataService(config);
+    private Button btGoChat;
 
     public ChatFragment() {
     }
@@ -56,30 +48,16 @@ public class ChatFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = (View) inflater.inflate(R.layout.fragment_chat, container, false);
-        tvResult = view.findViewById(R.id.tvResult);
-        etSendMsg = view.findViewById(R.id.etSendMsg);
-        btSend = view.findViewById(R.id.btSend);
-
-//        aiRequest.setQuery("1월 학사일정 알려줘");
-
-        btSend.setOnClickListener(new View.OnClickListener() {
-            String sendMsg = "";
+        btGoChat = view.findViewById(R.id.btGoChat);
+        btGoChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendMsg = etSendMsg.getText().toString();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                requestQuery(sendMsg);
-                            }
-                        });
-                    }
-                }).start();
+                Intent intent = new Intent(getActivity().getBaseContext(), ChatActivity.class);
+                startActivity(intent);
             }
         });
+
+
 //        aiRequest.setQuery("1월 학사일정 알려줘");
 //        new AsyncTask<AIRequest, Void, AIResponse>(){
 //            @Override
@@ -130,44 +108,7 @@ public class ChatFragment extends Fragment{
 
 
 
-    public void requestQuery(final String sendMsg){
-        aiRequest.setQuery(sendMsg);
-        new AsyncTask<AIRequest, Void, AIResponse>(){
-            @Override
-            protected AIResponse doInBackground(AIRequest... aiRequests) {
-                final AIRequest aiRequest = aiRequests[0];
-                try {
-//                    aiRequest.setQuery("Hello");
-                    final AIResponse aiResponse = aiDataService.request(aiRequest);
-                    return aiResponse;
-                } catch (AIServiceException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-            @Override
-            protected void onPostExecute(AIResponse aiResponse) {
-                Result result = aiResponse.getResult();
-                String paramString = "";
-                if(result.getParameters() != null && !result.getParameters().isEmpty()){
-                    for(final Map.Entry<String, JsonElement> entry : result.getParameters().entrySet()){
-                        paramString += "(" + entry.getKey() + ", " + entry.getValue() + ") ";
-                    }
-                }
 
-                super.onPostExecute(aiResponse);
-                if(aiResponse != null){
-                    //process aiResponse here
-                    tvResult.setText("Query : " + result.getResolvedQuery() +
-                            "\nAction : " + result.getAction()+
-                            "\nParam : " + paramString+
-                            "\nSpeech : " + result.getFulfillment().getSpeech());
-                }
-            }
-
-
-        }.execute(aiRequest);
-    }
 
 
 }
