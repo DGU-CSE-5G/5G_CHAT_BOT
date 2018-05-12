@@ -9,9 +9,19 @@ import android.widget.Button;
 import com.example.alex.dg_chatbot.R;
 import com.example.alex.dg_chatbot.UI.Main.MainActivity;
 
-public class SelectFavoriteActivity extends AppCompatActivity {
+public class SelectFavoriteActivity extends RootLogin {
 
     private Button btStart;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(getUser() != null){
+            Intent intent = new Intent(SelectFavoriteActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

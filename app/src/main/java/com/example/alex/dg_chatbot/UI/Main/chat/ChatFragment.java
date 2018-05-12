@@ -1,39 +1,29 @@
 package com.example.alex.dg_chatbot.UI.Main.chat;
 
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.example.alex.dg_chatbot.R;
-import com.google.gson.JsonElement;
-
-import java.util.Map;
-
-import ai.api.AIDataService;
-import ai.api.AIListener;
-import ai.api.AIServiceException;
-import ai.api.android.AIConfiguration;
-import ai.api.android.AIService;
-import ai.api.model.AIError;
-import ai.api.model.AIRequest;
-import ai.api.model.AIResponse;
-import ai.api.model.Result;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Selection으로 구현해서 원하는 정보를 얻을 수 있도록 함.
+ * 버튼을 누르면 ChatActivity로 이동
  */
 public class ChatFragment extends Fragment{
 
     private Button btGoChat;
+    private LinearLayout llNotice;
+    private LinearLayout llSchedule;
+    private LinearLayout llLecture;
+    private LinearLayout llEtc;
 
     public ChatFragment() {
     }
@@ -48,14 +38,58 @@ public class ChatFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = (View) inflater.inflate(R.layout.fragment_chat, container, false);
-        btGoChat = view.findViewById(R.id.btGoChat);
-        btGoChat.setOnClickListener(new View.OnClickListener() {
+
+        
+        llNotice = view.findViewById(R.id.llNotice);
+        llSchedule = view.findViewById(R.id.llSchedule);
+        llLecture = view.findViewById(R.id.llLecture);
+        llEtc = view.findViewById(R.id.llEtc);
+
+
+//        btGoChat.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity().getBaseContext(), ChatActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+
+        llNotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity().getBaseContext(), ChatActivity.class);
+                intent.putExtra("chatType","notice");
                 startActivity(intent);
             }
         });
+
+        llSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getBaseContext(), ChatActivity.class);
+                intent.putExtra("chatType","schedule");
+                startActivity(intent);
+            }
+        });
+
+        llLecture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getBaseContext(), ChatActivity.class);
+                intent.putExtra("chatType","lecture");
+                startActivity(intent);
+            }
+        });
+
+        llEtc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getBaseContext(), ChatActivity.class);
+                intent.putExtra("chatType","etc");
+                startActivity(intent);
+            }
+        });
+
 
 
 //        aiRequest.setQuery("1월 학사일정 알려줘");
@@ -102,7 +136,7 @@ public class ChatFragment extends Fragment{
 //            }
 //        }.execute(aiRequest);
 
-
+//select from where만 만들기
         return view;
     }
 

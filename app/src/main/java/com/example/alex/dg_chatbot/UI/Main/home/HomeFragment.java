@@ -1,4 +1,4 @@
-package com.example.alex.dg_chatbot.UI.Main;
+package com.example.alex.dg_chatbot.UI.Main.home;
 
 
 import android.os.Bundle;

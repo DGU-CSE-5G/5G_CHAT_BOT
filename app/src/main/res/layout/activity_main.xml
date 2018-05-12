@@ -6,7 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#ffffff"
     tools:context="com.example.alex.dg_chatbot.UI.Main.MainActivity">
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:src="@drawable/chatbot_logo_sample"/>
 
     <FrameLayout
         android:id="@+id/flContent"

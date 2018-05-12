@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.example.alex.dg_chatbot.R;
 import com.example.alex.dg_chatbot.UI.Main.MainActivity;
-import com.example.alex.dg_chatbot.Util.AlertUtil;
+import com.example.alex.dg_chatbot.Util.U;
 
 import org.json.JSONObject;
 
@@ -55,13 +55,13 @@ public class JsoupTestActivity extends AppCompatActivity {
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
                             if (success) {
-                                AlertUtil.getInstance().showSuccessPopup(getBaseContext(),
+                                U.getInstance().showSuccessPopup(getBaseContext(),
                                         "json불러오기 성공","");
                                 Intent intent = new Intent(JsoupTestActivity.this, MainActivity.class);
                                 JsoupTestActivity.this.startActivity(intent);
                                 finish();
                             }else{
-                                AlertUtil.getInstance().showErrorPopup(getBaseContext(),
+                                U.getInstance().showErrorPopup(getBaseContext(),
                                         "json불러오기 실패", "다시 입력해주세요");
                             }
                         } catch (Exception e) {

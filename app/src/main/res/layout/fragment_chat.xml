@@ -3,40 +3,105 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="100"
+    android:background="#ffffff"
     tools:context="com.example.alex.dg_chatbot.UI.Main.chat.ChatFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="30"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome! This is chat fragment"
-            android:textSize="40dp" />
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/chat_frag_ll_background"
+        android:elevation="2dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/chat_frag_top_sample" />
+
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="This is space for select my favorite\n
-            If you complete selection, please click button below"/>
+    <!--<Button-->
+        <!--android:id="@+id/btGoChat"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="TEST" />-->
 
-    <Button
-        android:id="@+id/btGoChat"
-        android:text="gochat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ScrollView
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/llNotice"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/chat_frag_ll_background"
+            android:elevation="2dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/chat_frag_ll_notice" />
 
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSchedule"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/chat_frag_ll_background"
+            android:elevation="2dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/chat_frag_ll_schedule" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llLecture"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/chat_frag_ll_background"
+            android:elevation="2dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/chat_frag_ll_lecture" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llEtc"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/chat_frag_ll_background"
+            android:elevation="2dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/chat_frag_ll_etc" />
+
+        </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

@@ -5,31 +5,30 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.alex.dg_chatbot.R;
-import com.example.alex.dg_chatbot.UI.Main.MainActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.gson.JsonElement;
-
-import java.nio.channels.AsynchronousChannel;
-import java.util.Map;
 
 import ai.api.AIConfiguration;
 import ai.api.AIDataService;
@@ -40,122 +39,69 @@ import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
 
-//public class ChatActivity extends AppCompatActivity {
-//
-//    private static final String ACCESS_TOKEN = "2aa32e7cdfb44da8b90ad5ca56141b01";
-//
-//    private TextView tvResult;
-//    private EditText etSendMsg;
-//    private Button btSend;
-//
-//    final AIRequest aiRequest = new AIRequest();
-//    final ai.api.android.AIConfiguration config = new ai.api.android.AIConfiguration(ACCESS_TOKEN,
-//            ai.api.android.AIConfiguration.SupportedLanguages.English,
-//            ai.api.android.AIConfiguration.RecognitionEngine.System);
-//
-//    final AIDataService aiDataService = new AIDataService(config);
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_chat);
-//
-//        tvResult = findViewById(R.id.tvResult);
-//        etSendMsg = findViewById(R.id.etSendMsg);
-//        btSend = findViewById(R.id.btSend);
-//
-//        btSend.setOnClickListener(new View.OnClickListener() {
-//            String sendMsg = "";
-//            @Override
-//            public void onClick(View view) {
-//                sendMsg = etSendMsg.getText().toString();
-//                aiRequest.setQuery(sendMsg);
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                requestQuery();
-//                            }
-//                        });
-//                    }
-//                }).start();
-//            }
-//        });
-//
-//
-//    }
-//
-//    public void requestQuery(){
-//        new AsyncTask<AIRequest, Void, AIResponse>(){
-//
-//            @Override
-//            protected AIResponse doInBackground(AIRequest... aiRequests) {
-//                final AIRequest request = aiRequests[0];
-//                try{
-////                    tvResult.setText(""+request);
-//                    final AIResponse aiResponse = aiDataService.request(request);
-//                } catch (AIServiceException e) {
-//                    e.printStackTrace();
-//                }
-//                return null;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(AIResponse aiResponse) {
-//                super.onPostExecute(aiResponse);
-//                if(aiResponse != null){
-//                    Result result = aiResponse.getResult();
-//                    String paramString = "";
-//                    if(result.getParameters() != null && !result.getParameters().isEmpty()){
-//                        for(final Map.Entry<String, JsonElement> entry : result.getParameters().entrySet()){
-//                            paramString += "(" + entry.getKey() + ", " + entry.getValue() + ") ";
-//                        }
-//                    }
-//
-//
-//                    tvResult.setText("Query : " + result.getResolvedQuery() +
-//                            "\nAction : " + result.getAction()+
-//                            "\nParam : " + paramString+
-//                            "\nspeech : " + result.getFulfillment().getSpeech());
-//
-//
-//
-////                    tvResult.setText(aiResponse.getResult() + "");
-//                }else{
-//                    tvResult.setText("error");
-//                }
-//            }
-//        }.execute(aiRequest);
-//
-//    }
-//}
+/**
+ * 채팅방 기본 UI 2018.5.8
+ * Firebase User 마다 각 채팅방 생성 2018.5.9
+ */
 
 public class ChatActivity extends AppCompatActivity implements AIListener {
 
     private static final String ACCESS_TOKEN = "2aa32e7cdfb44da8b90ad5ca56141b01";
 
-    RecyclerView recyclerView;
-    EditText editText;
-    RelativeLayout addBtn;
-    DatabaseReference ref;
-    FirebaseRecyclerAdapter<ChatMessage,chat_rec> adapter;
-    Boolean flagFab = true;
+    private RecyclerView recyclerView;
+    private EditText editText;
+    private RelativeLayout addBtn;
+    private DatabaseReference ref;
+    private FirebaseRecyclerAdapter<ChatMessage, chat_rec> adapter;
+    private Boolean flagFab = true;
+    private String chatType;
+    private ImageView ivChatTop;
+
+    private FirebaseUser firebaseUser;
+    private String userUid;
 
     private AIService aiService;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},1);
+        //오디오 체크 접근 권한을 요청
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        userUid = firebaseUser.getUid();
 
 
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
-        editText = (EditText)findViewById(R.id.editText);
-        addBtn = (RelativeLayout)findViewById(R.id.addBtn);
+        recyclerView = findViewById(R.id.recyclerView);
+        editText = findViewById(R.id.editText);
+        addBtn = findViewById(R.id.addBtn);
+        ivChatTop = findViewById(R.id.ivChatTop);
+
+
+        chatType = getIntent().getStringExtra("chatType");
+        int img = 0;
+        switch (chatType) {
+            case "notice":
+                img = R.drawable.chat_frag_ll_notice;
+                break;
+            case "schedule":
+                img = R.drawable.chat_frag_ll_schedule;
+                break;
+            case "lecture":
+                img = R.drawable.chat_frag_ll_lecture;
+                break;
+            case "etc":
+                img = R.drawable.chat_frag_ll_etc;
+                break;
+        }
+
+        ivChatTop.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        ivChatTop.setImageResource(img);
+
 
         recyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -165,8 +111,7 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
         ref = FirebaseDatabase.getInstance().getReference();
         ref.keepSynced(true);
 
-        final ai.api.android.AIConfiguration config = new ai.api.android.AIConfiguration(ACCESS_TOKEN
-                ,
+        final ai.api.android.AIConfiguration config = new ai.api.android.AIConfiguration(ACCESS_TOKEN,
                 AIConfiguration.SupportedLanguages.Korean,
                 ai.api.android.AIConfiguration.RecognitionEngine.System);
 
@@ -178,7 +123,6 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
         final AIRequest aiRequest = new AIRequest();
 
 
-
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -188,10 +132,10 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
                 if (!message.equals("")) {
 
                     ChatMessage chatMessage = new ChatMessage(message, "user");
-                    ref.child("chat").push().setValue(chatMessage);
+                    ref.child(userUid).child(chatType).push().setValue(chatMessage);
 
                     aiRequest.setQuery(message);
-                    new AsyncTask<AIRequest,Void,AIResponse>(){
+                    new AsyncTask<AIRequest, Void, AIResponse>() {
 
                         @Override
                         protected AIResponse doInBackground(AIRequest... aiRequests) {
@@ -203,6 +147,7 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
                             }
                             return null;
                         }
+
                         @Override
                         protected void onPostExecute(AIResponse response) {
                             if (response != null) {
@@ -210,12 +155,11 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
                                 Result result = response.getResult();
                                 String reply = result.getFulfillment().getSpeech();
                                 ChatMessage chatMessage = new ChatMessage(reply, "bot");
-                                ref.child("chat").push().setValue(chatMessage);
+                                ref.child(userUid).child(chatType).push().setValue(chatMessage);
                             }
                         }
                     }.execute(aiRequest);
-                }
-                else {
+                } else {
                     aiService.startListening();
                 }
 
@@ -223,7 +167,6 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
 
             }
         });
-
 
 
         editText.addTextChangedListener(new TextWatcher() {
@@ -234,19 +177,18 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ImageView fab_img = (ImageView)findViewById(R.id.fab_img);
-                Bitmap img = BitmapFactory.decodeResource(getResources(),R.drawable.ic_send_white_24dp);
-                Bitmap img1 = BitmapFactory.decodeResource(getResources(),R.drawable.ic_mic_white_24dp);
+                ImageView fab_img = findViewById(R.id.fab_img);
+                Bitmap img = BitmapFactory.decodeResource(getResources(), R.drawable.ic_send_white_24dp);
+                Bitmap img1 = BitmapFactory.decodeResource(getResources(), R.drawable.ic_mic_white_24dp);
 
 
-                if (s.toString().trim().length()!=0 && flagFab){
-                    ImageViewAnimatedChange(ChatActivity.this,fab_img,img);
-                    flagFab=false;
+                if (s.toString().trim().length() != 0 && flagFab) {
+                    ImageViewAnimatedChange(ChatActivity.this, fab_img, img);
+                    flagFab = false;
 
-                }
-                else if (s.toString().trim().length()==0){
-                    ImageViewAnimatedChange(ChatActivity.this,fab_img,img1);
-                    flagFab=true;
+                } else if (s.toString().trim().length() == 0) {
+                    ImageViewAnimatedChange(ChatActivity.this, fab_img, img1);
+                    flagFab = true;
 
                 }
 
@@ -259,21 +201,15 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
             }
         });
 
-        adapter = new FirebaseRecyclerAdapter<ChatMessage, chat_rec>(ChatMessage.class,R.layout.msglist,chat_rec.class,ref.child("chat")) {
+        adapter = new FirebaseRecyclerAdapter<ChatMessage, chat_rec>(ChatMessage.class, R.layout.msglist, chat_rec.class, ref.child(userUid).child(chatType)) {
             @Override
             protected void populateViewHolder(chat_rec viewHolder, ChatMessage model, int position) {
-
                 if (model.getMsgUser().equals("user")) {
-
-
                     viewHolder.rightText.setText(model.getMsgText());
-
                     viewHolder.rightText.setVisibility(View.VISIBLE);
                     viewHolder.leftText.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     viewHolder.leftText.setText(model.getMsgText());
-
                     viewHolder.rightText.setVisibility(View.GONE);
                     viewHolder.leftText.setVisibility(View.VISIBLE);
                 }
@@ -302,20 +238,34 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
 
 
     }
+
     public void ImageViewAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
         final Animation anim_out = AnimationUtils.loadAnimation(c, R.anim.zoom_out);
-        final Animation anim_in  = AnimationUtils.loadAnimation(c, R.anim.zoom_in);
-        anim_out.setAnimationListener(new Animation.AnimationListener()
-        {
-            @Override public void onAnimationStart(Animation animation) {}
-            @Override public void onAnimationRepeat(Animation animation) {}
-            @Override public void onAnimationEnd(Animation animation)
-            {
+        final Animation anim_in = AnimationUtils.loadAnimation(c, R.anim.zoom_in);
+        anim_out.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
                 v.setImageBitmap(new_image);
                 anim_in.setAnimationListener(new Animation.AnimationListener() {
-                    @Override public void onAnimationStart(Animation animation) {}
-                    @Override public void onAnimationRepeat(Animation animation) {}
-                    @Override public void onAnimationEnd(Animation animation) {}
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                    }
                 });
                 v.startAnimation(anim_in);
             }
@@ -329,12 +279,12 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
 
         String message = result.getResolvedQuery();
         ChatMessage chatMessage0 = new ChatMessage(message, "user");
-        ref.child("chat").push().setValue(chatMessage0);
+        ref.child(userUid).child(chatType).push().setValue(chatMessage0);
 
 
         String reply = result.getFulfillment().getSpeech();
         ChatMessage chatMessage = new ChatMessage(reply, "bot");
-        ref.child("chat").push().setValue(chatMessage);
+        ref.child(userUid).child(chatType).push().setValue(chatMessage);
     }
 
     @Override

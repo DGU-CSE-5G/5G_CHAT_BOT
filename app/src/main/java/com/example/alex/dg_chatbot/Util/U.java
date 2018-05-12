@@ -2,6 +2,7 @@ package com.example.alex.dg_chatbot.Util;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -9,14 +10,14 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * Created by alex on 2018. 4. 20..
  */
 
-public class AlertUtil {
-    private static final AlertUtil ourInstance = new AlertUtil();
+public class U {
+    private static final U ourInstance = new U();
 
-    public static AlertUtil getInstance() {
+    public static U getInstance() {
         return ourInstance;
     }
 
-    private AlertUtil() {
+    private U() {
     }
 
     public void showYesNoPopup(Context context, String title, String msg,
@@ -68,6 +69,12 @@ public class AlertUtil {
         progressDialog.show();
         return progressDialog;
     }
+
+    public void Log(String content){
+        Log.i("LOG", content);
+    }
+
+
 
 
 }

@@ -6,22 +6,14 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.alex.dg_chatbot.R;
 import com.example.alex.dg_chatbot.UI.Main.chat.ChatFragment;
-import com.google.gson.JsonElement;
-
-import java.util.Map;
-
-import ai.api.AIListener;
-import ai.api.android.AIConfiguration;
-import ai.api.android.AIService;
-import ai.api.model.AIError;
-import ai.api.model.AIResponse;
-import ai.api.model.Result;
+import com.example.alex.dg_chatbot.UI.Main.home.HomeFragment;
+import com.example.alex.dg_chatbot.UI.Main.settings.SettingFragment;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -59,7 +51,10 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
+
 
         switchToHome();
 
