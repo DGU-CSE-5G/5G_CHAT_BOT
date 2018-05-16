@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.alex.dg_chatbot.R;
 import com.example.alex.dg_chatbot.UI.Main.MainActivity;
+import com.example.alex.dg_chatbot.Util.ResultCode;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,8 +34,7 @@ import java.util.List;
 
 public class LoginActivity extends RootLogin {
 
-    private final static String EMAIL = "EMAIL";
-    private final static String ANONYMOUS = "ANONYMOUS";
+    private ResultCode resultCode;
 
     private EditText etUserId;
     private EditText etUserPwd;
@@ -89,6 +89,7 @@ public class LoginActivity extends RootLogin {
 
     public void startSelectActivity(){
         Intent intent = new Intent(this, SelectFavoriteActivity.class);
+        intent.putExtra("where", resultCode.getLOGIN_ACTIVITY());
         startActivity(intent);
     }
 

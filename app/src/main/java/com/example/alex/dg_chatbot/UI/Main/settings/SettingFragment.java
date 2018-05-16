@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.alex.dg_chatbot.R;
+import com.example.alex.dg_chatbot.UI.Login.SelectFavoriteActivity;
 import com.example.alex.dg_chatbot.UI.Tutorial.TutorialActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -28,6 +29,7 @@ public class SettingFragment extends Fragment {
     private LinearLayout llQnA;
     private LinearLayout llAppInfo;
     private LinearLayout llLogout;
+    private LinearLayout llFavorite;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -46,6 +48,7 @@ public class SettingFragment extends Fragment {
         llQnA = view.findViewById(R.id.llQnA);
         llAppInfo = view.findViewById(R.id.llAppInfo);
         llLogout = view.findViewById(R.id.llLogout);
+        llFavorite = view.findViewById(R.id.llFavorite);
 
         llPush.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +83,15 @@ public class SettingFragment extends Fragment {
             public void onClick(View view) {
                 firebaseAuth.signOut();
                 Intent intent = new Intent(getActivity().getBaseContext(), TutorialActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        llFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getBaseContext(), SelectFavoriteActivity.class);
+                intent.putExtra("where", "SettingFragment");
                 startActivity(intent);
             }
         });

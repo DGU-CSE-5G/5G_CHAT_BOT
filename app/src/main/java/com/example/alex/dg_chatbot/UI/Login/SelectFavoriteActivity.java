@@ -8,19 +8,16 @@ import android.widget.Button;
 
 import com.example.alex.dg_chatbot.R;
 import com.example.alex.dg_chatbot.UI.Main.MainActivity;
+import com.example.alex.dg_chatbot.Util.ResultCode;
 
 public class SelectFavoriteActivity extends RootLogin {
 
     private Button btStart;
+    private ResultCode resultCode;
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        if(getUser() != null){
-            Intent intent = new Intent(SelectFavoriteActivity.this, MainActivity.class);
-            startActivity(intent);
-        }
     }
 
     @Override
