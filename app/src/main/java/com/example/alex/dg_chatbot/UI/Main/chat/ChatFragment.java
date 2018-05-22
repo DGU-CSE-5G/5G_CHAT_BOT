@@ -58,7 +58,7 @@ public class ChatFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity().getBaseContext(), ChatActivity.class);
-                intent.putExtra("chatType","notice");
+                intent.putExtra("chatType","NoticeModel");
                 startActivity(intent);
             }
         });

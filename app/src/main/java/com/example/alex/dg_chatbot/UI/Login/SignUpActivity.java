@@ -1,29 +1,30 @@
 package com.example.alex.dg_chatbot.UI.Login;
 
-import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.alex.dg_chatbot.R;
+import com.example.alex.dg_chatbot.Util.U;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SignUpActivity extends RootLogin {
+public class SignUpActivity extends RootActivity {
 
     private EditText etUserNewID;
     private EditText etUserNewPwd;
+    private EditText etUserNewPwdCheck;
     private CheckBox cbAgree;
-    private Button btNewSignUp;
+    private LinearLayout llBack;
+    private LinearLayout llSignUp;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -62,21 +63,39 @@ public class SignUpActivity extends RootLogin {
         firebaseAuth = FirebaseAuth.getInstance();
         etUserNewID = findViewById(R.id.etUserNewID);
         etUserNewPwd = findViewById(R.id.etUserNewPwd);
+        etUserNewPwdCheck = findViewById(R.id.etUserNewPwdCheck);
         cbAgree = findViewById(R.id.cbAgree);
-        btNewSignUp = findViewById(R.id.btNewSignUp);
+        llBack = findViewById(R.id.llBack);
+        llSignUp = findViewById(R.id.llSignUp);
 
-        btNewSignUp.setOnClickListener(new View.OnClickListener() {
+        llSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(cbAgree.isChecked()){
+                if(cbAgree.isChecked() && isPwdEquals()){
                     emailSignUp();
-                }else{
+                }else if(!cbAgree.isChecked()){
                     Toast.makeText(SignUpActivity.this, "약관에 동의해주세요.", Toast.LENGTH_LONG).show();
                     return;
+                }else if(!isPwdEquals()){
+                    U.getInstance().showErrorPopup(SignUpActivity.this, "비밀번호 확인", "비밀번호가 일치하지 않습니다");
                 }
             }
         });
 
+        llBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+    }
+
+    public boolean isPwdEquals(){
+        if(etUserNewPwd.getText().toString()
+                .equals(etUserNewPwdCheck.getText().toString()))
+            return true;
+        else return false;
     }
 
     public void emailSignUp(){

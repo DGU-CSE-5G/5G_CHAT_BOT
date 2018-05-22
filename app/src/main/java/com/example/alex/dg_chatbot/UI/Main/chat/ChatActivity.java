@@ -2,6 +2,7 @@ package com.example.alex.dg_chatbot.UI.Main.chat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -13,22 +14,24 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.alex.dg_chatbot.R;
+import com.example.alex.dg_chatbot.UI.Login.RootActivity;
+import com.example.alex.dg_chatbot.UI.Main.chat.ScheduleModel.ScheduleActivity;
+import com.example.alex.dg_chatbot.Util.U;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.JsonElement;
+
+import java.util.Map;
 
 import ai.api.AIConfiguration;
 import ai.api.AIDataService;
@@ -44,9 +47,13 @@ import ai.api.model.Result;
  * Firebase User 마다 각 채팅방 생성 2018.5.9
  */
 
-public class ChatActivity extends AppCompatActivity implements AIListener {
+public class ChatActivity extends RootActivity implements AIListener {
 
     private static final String ACCESS_TOKEN = "2aa32e7cdfb44da8b90ad5ca56141b01";
+    private static final int NOTICE = 1;
+    private static final int SCHEDULE = 2;
+    private static final int LECTURE = 3;
+    private static final int ETC = 4;
 
     private RecyclerView recyclerView;
     private EditText editText;
@@ -61,7 +68,7 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
     private String userUid;
 
     private AIService aiService;
-
+    private int stateFlag = 0;
 
 
     @Override
@@ -85,17 +92,21 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
         chatType = getIntent().getStringExtra("chatType");
         int img = 0;
         switch (chatType) {
-            case "notice":
+            case "NoticeModel":
                 img = R.drawable.chat_frag_ll_notice;
+                stateFlag = NOTICE;
                 break;
             case "schedule":
                 img = R.drawable.chat_frag_ll_schedule;
+                stateFlag = SCHEDULE;
                 break;
             case "lecture":
                 img = R.drawable.chat_frag_ll_lecture;
+                stateFlag = LECTURE;
                 break;
             case "etc":
                 img = R.drawable.chat_frag_ll_etc;
+                stateFlag = ETC;
                 break;
         }
 
@@ -152,10 +163,32 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
                         protected void onPostExecute(AIResponse response) {
                             if (response != null) {
 
+                                String key = "";
+                                String value = "";
+                                String action = "";
+
                                 Result result = response.getResult();
                                 String reply = result.getFulfillment().getSpeech();
                                 ChatMessage chatMessage = new ChatMessage(reply, "bot");
                                 ref.child(userUid).child(chatType).push().setValue(chatMessage);
+
+                                action = result.getAction().toString();
+
+                                if (result.getParameters() != null && !result.getParameters().isEmpty()) {
+                                    for (final Map.Entry<String, JsonElement> entry : result.getParameters().entrySet()) {
+                                        key = entry.getKey();
+                                        value = entry.getValue().toString();
+                                        U.getInstance().resultLog("action : " + action + " key : " + key + " value : " + value
+                                        +" speech : " + reply);
+                                    }
+                                }
+
+                                if(action.equals("schedule") && key.equals("month")){
+                                    Intent intent = new Intent(ChatActivity.this, ScheduleActivity.class);
+                                    intent.putExtra("key",key);
+                                    intent.putExtra("value",value);
+                                    startActivity(intent);
+                                }
                             }
                         }
                     }.execute(aiRequest);
@@ -239,6 +272,11 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
 
     }
 
+
+    //***********************************************
+    //              AI LISTNER OVERRIDES
+    //***********************************************
+
     public void ImageViewAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
         final Animation anim_out = AnimationUtils.loadAnimation(c, R.anim.zoom_out);
         final Animation anim_in = AnimationUtils.loadAnimation(c, R.anim.zoom_in);
@@ -311,4 +349,6 @@ public class ChatActivity extends AppCompatActivity implements AIListener {
     public void onListeningFinished() {
 
     }
+
+
 }

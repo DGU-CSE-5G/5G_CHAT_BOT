@@ -7,19 +7,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import com.example.alex.dg_chatbot.R;
-import com.example.alex.dg_chatbot.UI.Login.LoginActivity;
+import com.example.alex.dg_chatbot.UI.Login.ActivityNewActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Tuto3Fragment extends Fragment {
 
-    private Button btSkip;
-    private Button btStart;
+    private ImageButton btStart;
 
     public Tuto3Fragment() {
         // Required empty public constructor
@@ -31,23 +30,12 @@ public class Tuto3Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.fragment_tuto3, container, false);
-        btSkip = (Button) layout.findViewById(R.id.btSkip);
-        btStart = (Button) layout.findViewById(R.id.btStart);
-
-
-
-        btSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
-            }
-        });
+        btStart = layout.findViewById(R.id.btStart);
 
         btStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), LoginActivity.class);
+                Intent intent = new Intent(getContext(), ActivityNewActivity.class);
                 startActivity(intent);
             }
         });

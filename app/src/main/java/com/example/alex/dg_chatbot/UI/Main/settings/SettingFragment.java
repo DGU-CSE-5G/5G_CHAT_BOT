@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.alex.dg_chatbot.R;
 import com.example.alex.dg_chatbot.UI.Login.SelectFavoriteActivity;
@@ -31,6 +32,8 @@ public class SettingFragment extends Fragment {
     private LinearLayout llLogout;
     private LinearLayout llFavorite;
 
+    private TextView tvEmailID;
+
     public SettingFragment() {
         // Required empty public constructor
     }
@@ -49,6 +52,13 @@ public class SettingFragment extends Fragment {
         llAppInfo = view.findViewById(R.id.llAppInfo);
         llLogout = view.findViewById(R.id.llLogout);
         llFavorite = view.findViewById(R.id.llFavorite);
+
+        tvEmailID = view.findViewById(R.id.tvEmailID);
+        if(!firebaseAuth.getCurrentUser().isAnonymous())
+            tvEmailID.setText(firebaseAuth.getCurrentUser().getEmail());
+        else
+            tvEmailID.setText("익명으로 로그인 했습니다.");
+
 
         llPush.setOnClickListener(new View.OnClickListener() {
             @Override

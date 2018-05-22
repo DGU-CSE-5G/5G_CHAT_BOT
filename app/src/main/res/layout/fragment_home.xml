@@ -1,92 +1,81 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
     android:orientation="vertical"
+    android:weightSum="10"
     tools:context="com.example.alex.dg_chatbot.UI.Main.home.HomeFragment">
 
 
+    <FrameLayout
+        android:id="@+id/flHomeVPWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/homeViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/circleIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:layout_marginRight="10dp"
+            android:background="@color/transparent"
+            android:foregroundGravity="right"
+            app:ci_gravity="center" />
+
+    </FrameLayout>
+
+
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#aaaaaa"/>
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:foregroundGravity="bottom"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:orientation="horizontal"
+        android:background="#ffffff">
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_gravity="left|bottom"
+                android:src="@drawable/dongguk_logo"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/homepage"
+                />
+        </LinearLayout>
+
+
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#aaaaaa"/>
 
-
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:elevation="2dp"
-        android:background="@drawable/home_feed"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/homeRecyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@drawable/feed_1" />
-
-        <TextView
-            android:layout_margin="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="동국대학교 연등행사"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            />
-
-        <TextView
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5월 12일 오후 4:30~6:00 동국대학교 운동장 - 얼쑤 한바탕 선명이 심장을 두드린다. - 연등행렬이 출발하기 전, 연희단과 율동단의 화려한 춤사위와 흥겨운 노래가 흥 ..."
-            android:textSize="11dp"
-
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:elevation="2dp"
-        android:background="@drawable/home_feed"
+        android:layout_marginTop="10dp" />
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@drawable/feed_2" />
-
-        <TextView
-            android:layout_margin="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="동국대 로터스관 기공식사"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            />
-
-        <TextView
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="로터스관 남산주변 새로운 랜드마크 역할 기대.."
-            android:textSize="11dp"
-
-            />
-
-    </LinearLayout>
-
+        android:layout_height="0.5dp"
+        android:background="#aaaaaa"/>
 
 </LinearLayout>

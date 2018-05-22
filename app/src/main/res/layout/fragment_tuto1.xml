@@ -2,19 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fcd388"
     tools:context=".UI.Tutorial.Tuto1Fragment">
+    <ImageView
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/tuto1_background_image"/>
 
-    <!-- TODO: Update blank fragment layout -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/tuto1"
-        android:id="@+id/tuto1"/>
+        android:src="@drawable/tuto1_foreground_image"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="skip"
-        android:id="@+id/btSkip"/>
+
 
 </FrameLayout>

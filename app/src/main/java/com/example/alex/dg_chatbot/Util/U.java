@@ -1,8 +1,11 @@
 package com.example.alex.dg_chatbot.Util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
+
+import com.example.alex.dg_chatbot.R;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -29,7 +32,7 @@ public class U {
                 .setConfirmText(cName)
                 .setConfirmClickListener(cEvent)
                 .setCancelText(oName)
-                .setConfirmClickListener(oEvent)
+                .setCancelClickListener(oEvent)
                 .show();
     }
 
@@ -47,11 +50,13 @@ public class U {
                 .show();
     }
 
+
     public void showErrorPopup(Context context, String title, String msg) {
         new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
                 .setTitleText(title)
                 .setContentText(msg)
                 .show();
+
     }
 
     public void showNormalPopup(Context context, String title, String msg) {
@@ -61,20 +66,31 @@ public class U {
                 .show();
     }
 
-    public SweetAlertDialog showLoading(Context context, String msg, String color) {
-        SweetAlertDialog progressDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
-        progressDialog.getProgressHelper().setBarColor(Color.parseColor(color));
-        progressDialog.setTitleText(msg)
-                .setCancelable(false);
-        progressDialog.show();
-        return progressDialog;
-    }
+//    public SweetAlertDialog showLoading(Context context, String msg, String color) {
+//        SweetAlertDialog progressDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
+//        progressDialog.getProgressHelper().setBarColor(Color.parseColor(color));
+//        progressDialog.setTitleText(msg)
+//                .setCancelable(false);
+//        progressDialog.show();
+//        return progressDialog;
+//    }
 
     public void Log(String content){
         Log.i("LOG", content);
     }
 
+    public void eclassLog(String content){
+        Log.i("eclass", content);
+    }
+    public void mainLog(String content){
+        Log.i("main", content);
+    }
+    public void resultLog(String content){
+        Log.i("result", content);
+    }
 
-
+    public void sharedPreferencesLog(String content){
+        Log.i("sharedPreferences", content);
+    }
 
 }
